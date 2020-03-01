@@ -1,3 +1,10 @@
+<?php
+
+	$connect = new PDO("mysql:host=localhost;dbname=weblessions_shopping_cart_php_mysql_cookies", "root", "");
+
+
+?>
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -14,78 +21,39 @@
 	<br />
   	<div class="container">
    		<br />
-   		<h3 align="center">Simple PHP Mysql Shopping Cart using Cookies</h3><br />
-   		<br /><br />
+   		<h3 align="center">Simple PHP Mysql Shopping Cart using Cookies</h3><br/><br/><br/> 
+
    
    		<div class="row">
-		   <div class="col-md-3">
-				<form method="post">
-					<div style="border:1px solid #333; background-color:#f1f1f1; border-radius:5px; padding:16px;" align="center">
-						<img src="images/1.jpg" class="img-responsive" /><br />
+		   <?php
+				$query 	   = "SELECT * FROM products ORDER BY id ASC";
+				$statement = $connect->prepare($query);
+				$statement->execute();
+				$result    = $statement->fetchAll();
 
-						<h4 class="text-info">Mobile Phone</h4>
+				foreach($result as $row)
+				{
+					?>
+						<div class="col-md-3">
+							<form method="post">
+								<div style="border:1px solid #333; background-color:#f1f1f1; border-radius:5px; padding:16px;" align="center">
+									<img src="images/<?php echo $row["image"]; ?>" class="img-responsive" /><br />
 
-						<h4 class="text-danger">$ 100.00</h4>
+									<h4 class="text-info"><?php echo $row["name"]; ?></h4>
 
-						<input type="text" name="quantity" value="1" class="form-control" />
-						<input type="hidden" name="hidden_name" value="" />
-						<input type="hidden" name="hidden_price" value="" />
-						<input type="hidden" name="hidden_id" value="" />
-						<input type="submit" name="add_to_cart" style="margin-top:5px;" class="btn btn-success" value="Add to Cart" />
-					</div>
-				</form>
-			</div>
-			<div class="col-md-3">
-				<form method="post">
-					<div style="border:1px solid #333; background-color:#f1f1f1; border-radius:5px; padding:16px;" align="center">
-						<img src="images/2.jpg" class="img-responsive" /><br />
+									<h4 class="text-danger">$ <?php echo $row["price"]; ?></h4>
 
-						<h4 class="text-info">Notebook</h4>
-
-						<h4 class="text-danger">$ 299.00</h4>
-
-						<input type="text" name="quantity" value="1" class="form-control" />
-						<input type="hidden" name="hidden_name" value="" />
-						<input type="hidden" name="hidden_price" value="" />
-						<input type="hidden" name="hidden_id" value="" />
-						<input type="submit" name="add_to_cart" style="margin-top:5px;" class="btn btn-success" value="Add to Cart" />
-					</div>
-				</form>
-			</div>
-			<div class="col-md-3">
-				<form method="post">
-					<div style="border:1px solid #333; background-color:#f1f1f1; border-radius:5px; padding:16px;" align="center">
-						<img src="images/3.jpg" class="img-responsive" /><br />
-
-						<h4 class="text-info">Mobile Lite</h4>
-
-						<h4 class="text-danger">$ 125.00</h4>
-
-						<input type="text" name="quantity" value="1" class="form-control" />
-						<input type="hidden" name="hidden_name" value="" />
-						<input type="hidden" name="hidden_price" value="" />
-						<input type="hidden" name="hidden_id" value="" />
-						<input type="submit" name="add_to_cart" style="margin-top:5px;" class="btn btn-success" value="Add to Cart" />
-					</div>
-				</form>
-			</div>
-			<div class="col-md-3">
-				<form method="post">
-					<div style="border:1px solid #333; background-color:#f1f1f1; border-radius:5px; padding:16px;" align="center">
-						<img src="images/4.jpg" class="img-responsive" /><br />
-
-						<h4 class="text-info">Writst Watch</h4>
-
-						<h4 class="text-danger">$ 85.00</h4>
-
-						<input type="text" name="quantity" value="1" class="form-control" />
-						<input type="hidden" name="hidden_name" value="" />
-						<input type="hidden" name="hidden_price" value="" />
-						<input type="hidden" name="hidden_id" value="" />
-						<input type="submit" name="add_to_cart" style="margin-top:5px;" class="btn btn-success" value="Add to Cart" />
-					</div>
-				</form>
-			</div>
+									<input type="text" name="quantity" value="1" class="form-control" />
+									<input type="hidden" name="hidden_name" value="<?php echo $row["name"]; ?>" />
+									<input type="hidden" name="hidden_price" value="<?php echo $row["price"]; ?>" />
+									<input type="hidden" name="hidden_id" value="<?php echo $row["id"]; ?>" />
+									<input type="submit" name="add_to_cart" style="margin-top:5px;" class="btn btn-success" value="Add to Cart" />
+								</div>
+							</form>
+						</div>
+					<?php
+				}
+			?>
 		</div>
 
 		<div style="clear:both"></div>
